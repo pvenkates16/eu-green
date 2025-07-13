@@ -30,6 +30,8 @@
     - BTAR vs Total Assets Scatter Plot: Goal: Relationships. Visualization: Scatter Plot (Chart.js/Canvas). Justification: To show correlation or distribution between two quantitative variables. Data is illustrative due to lack of comprehensive real data.
     - New Section: Banks' Role in Transition Funding. Goal: Inform/Organize. Visualization: Bar Chart (Chart.js/Canvas) for funding allocation, and text/list for means.
     - New Section: Company Spotlights (Equinor & Ørsted). Goal: Inform/Illustrate. Visualization: Combination of text, lists, and potentially small charts for project type/funding.
+    - New Section: Drivers for European Banks in Green Transition (Causal Graph). Goal: Inform/Illustrate. Visualization: Structured HTML/CSS flow diagram.
+    - New Section: Anti-Drivers for European Banks in Green Transition (Causal Graph). Goal: Inform/Illustrate. Visualization: Structured HTML/CSS flow diagram.
 
     Color Palette: "Vibrant Greens & Blues" (A custom selection inspired by the provided images for a professional, eco-finance theme).
     - Background: #F8FAFC (Almost white)
@@ -107,6 +109,14 @@
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 1rem;
+        }
+        /* Animation for the pulsating arrow/connector */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+        .animate-pulse {
+            animation: pulse 1.5s infinite ease-in-out;
         }
     </style>
 </head>
@@ -400,7 +410,130 @@
             </div>
         </section>
 
-        <section id="credibility-gap" class="py-16 bg-slate-50 rounded-xl">
+        <section id="drivers-infographic" class="py-16 bg-slate-50 rounded-xl">
+            <h2 class="section-title">Drivers for European Banks in Green Transition</h2>
+            <p class="section-subtitle">A causal graph illustrating the key factors influencing European banks to accelerate the shift from fossil fuels to green energy and reduce dependence on foreign oil.</p>
+
+            <div class="max-w-4xl mx-auto flex flex-col items-center space-y-8">
+
+                <!-- Node 1: External Pressures -->
+                <div class="card p-6 w-full bg-blue-100 border-blue-300 text-center">
+                    <h3 class="text-blue-800 mb-2">External Pressures</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**EU Climate Targets:** Binding GHG reductions, climate neutrality by 2050.</li>
+                        <li>**Geopolitical Events:** Drive for energy security, reduced foreign oil/gas dependence.</li>
+                        <li>**Financial Risks:** Growing transition (e.g., stranded assets) & physical climate risks.</li>
+                        <li>**Reputational Risks:** Increased public & stakeholder scrutiny on climate action.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-blue-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 2: Regulatory & Market Imperatives -->
+                <div class="card p-6 w-full bg-green-100 border-green-300 text-center">
+                    <h3 class="text-green-800 mb-2">Regulatory & Market Imperatives</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**EU Regulations:** EU Taxonomy, EBA Pillar 3 disclosures (GAR/BTAR).</li>
+                        <li>**Market Opportunities:** Growth in green finance, demand for sustainable products.</li>
+                        <li>**Investor Pressure:** ESG mandates, demand for Paris-aligned portfolios.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-green-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 3: Bank Strategic Response -->
+                <div class="card p-6 w-full bg-purple-100 border-purple-300 text-center">
+                    <h3 class="text-purple-800 mb-2">Bank Strategic Response</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**Decarbonization Strategies:** Setting net-zero targets, sector-specific pathways.</li>
+                        <li>**Sustainable Finance Products:** Development and scaling of green loans, bonds, SLLs.</li>
+                        <li>**Risk Management Integration:** Incorporating climate risks into lending & investment decisions.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-purple-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 4: Tangible Outcomes -->
+                <div class="card p-6 w-full bg-yellow-100 border-yellow-300 text-center">
+                    <h3 class="text-yellow-800 mb-2">Tangible Outcomes</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**Increased Green Financing:** Capital flows to renewable energy, energy efficiency.</li>
+                        <li>**Reduced Fossil Fuel Exposure:** Divestment, stricter lending to high-carbon sectors.</li>
+                        <li>**Enhanced Transparency:** Improved ESG reporting & data quality.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-yellow-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 5: Ultimate Goal -->
+                <div class="card p-8 w-full bg-teal-100 border-teal-300 text-center">
+                    <h3 class="text-teal-800">Accelerated Green Energy Transition & Energy Independence</h3>
+                    <p class="text-slate-700 text-lg">Driving a more sustainable, climate-resilient, and energy-independent European economy.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="anti-drivers-infographic" class="py-16">
+            <h2 class="section-title">Anti-Drivers: Obstacles to Green Transition for European Banks</h2>
+            <p class="section-subtitle">A causal graph illustrating the key factors hindering European banks from fully accelerating the shift from fossil fuels to green energy.</p>
+
+            <div class="max-w-4xl mx-auto flex flex-col items-center space-y-8">
+
+                <!-- Node 1: Economic & Financial Obstacles -->
+                <div class="card p-6 w-full bg-red-100 border-red-300 text-center">
+                    <h3 class="text-red-800 mb-2">Economic & Financial Obstacles</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**Short-Term Profit Focus:** Pressure for immediate returns over long-term green investments.</li>
+                        <li>**High Upfront Costs:** Green projects often require significant initial capital.</li>
+                        <li>**Continued Fossil Fuel Profitability:** Existing fossil fuel assets remain lucrative, disincentivizing rapid divestment.</li>
+                        <li>**Lack of Standardized Valuation:** Difficulty in consistently valuing green assets and projects.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-red-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 2: Regulatory & Policy Gaps -->
+                <div class="card p-6 w-full bg-orange-100 border-orange-300 text-center">
+                    <h3 class="text-orange-800 mb-2">Regulatory & Policy Gaps</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**Inconsistent Policies:** Varying national regulations and slow EU-wide harmonization.</li>
+                        <li>**Data Gaps & Quality:** Lack of granular, verifiable ESG data from clients (especially SMEs).</li>
+                        <li>**Voluntary Disclosure:** BTAR's voluntary nature limits comprehensive market transparency.</li>
+                        <li>**"Transition Finance" Ambiguity:** Lack of clear, universally accepted definitions and metrics for financing high-emitting sectors' transition.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-orange-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 3: Market & Technological Barriers -->
+                <div class="card p-6 w-full bg-yellow-100 border-yellow-300 text-center">
+                    <h3 class="text-yellow-800 mb-2">Market & Technological Barriers</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**Immature Green Technologies:** Some critical green technologies are not yet commercially viable or scalable.</li>
+                        <li>**Limited Green Project Pipeline:** Insufficient number of bankable green projects, especially in certain sectors/regions.</li>
+                        <li>**Supply Chain Constraints:** Bottlenecks in the supply of materials and components for green infrastructure.</li>
+                        <li>**Lack of Skilled Workforce:** Shortage of talent with expertise in green finance and sustainable technologies.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-yellow-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 4: Internal Bank Challenges -->
+                <div class="card p-6 w-full bg-gray-100 border-gray-300 text-center">
+                    <h3 class="text-gray-800 mb-2">Internal Bank Challenges</h3>
+                    <ul class="list-none space-y-1 text-slate-700 text-sm">
+                        <li>**Legacy Systems:** Outdated IT infrastructure hindering ESG data integration.</li>
+                        <li>**Risk Aversion:** Hesitancy to finance novel green technologies due to perceived higher risk.</li>
+                        <li>**Lack of Internal Expertise:** Insufficient knowledge within banks on green finance products and climate risk assessment.</li>
+                        <li>**Cultural Inertia:** Resistance to change within established financial institutions.</li>
+                    </ul>
+                </div>
+                <div class="w-1 h-16 bg-gray-400 rounded-full animate-pulse"></div> <!-- Arrow/Connector -->
+
+                <!-- Node 5: Resulting Slowdown -->
+                <div class="card p-8 w-full bg-slate-200 border-slate-400 text-center">
+                    <h3 class="text-slate-800">Slower Pace of Green Transition & Continued Foreign Oil Dependence</h3>
+                    <p class="text-slate-700 text-lg">Hinders Europe's journey towards a fully sustainable and energy-independent economy.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="credibility-gap" class="py-16">
             <h2 class="section-title">The Credibility Gap: Pledges vs. Reality</h2>
             <p class="section-subtitle">A critical challenge is the divergence between banks' public climate commitments and their continued financing of fossil fuel activities. Reports show many large banks still support fossil fuel expansion, raising concerns about the pace of genuine change.</p>
             <div class="card max-w-4xl mx-auto">
@@ -415,7 +548,7 @@
     </main>
 
     <footer class="text-center py-8 mt-16 border-t border-slate-200">
-        <p class="text-slate-500">Infographic created based on public reports regarding European banking and sustainable finance. Data points are for illustrative and educational purposes, reflecting information available up to 2024. Specific GAR and BTAR data for many banks, including Nordea, Danske Bank, Triodos, KfW, ING, and BNP Paribas, was not fully available in the provided sources, hence illustrative values are used where necessary. Ørsted is an energy company and does not report a Green Asset Ratio in the context of banking. All scatter plot data is largely hypothetical and for illustrative purposes only due to data availability limitations. Funding allocation data is also illustrative. Information on specific project funding for Equinor, Ørsted, Nordea, and Danske Bank is based on publicly available general financing information and may not represent comprehensive, disaggregated project-level data.</p>
+        <p class="text-slate-500">Infographic created based on public reports regarding European banking and sustainable finance. Data points are for illustrative and educational purposes, reflecting information available up to 2024. Specific GAR and BTAR data for many banks, including Nordea, Danske Bank, Triodos, KfW, ING, and BNP Paribas, was not fully available in the provided sources, hence illustrative values are used where necessary. Ørsted is an energy company and does not report a Green Asset Ratio in the context of banking. All scatter plot data is largely hypothetical and for illustrative purposes only due to data availability limitations. Funding allocation data is also illustrative. Information on specific project funding for Equinor, Ørsted, Nordea, and Danske Bank is based on publicly available general financing information and may not represent comprehensive, disaggregated project-level data. The causal graphs for drivers and anti-drivers are conceptual illustrations of interconnected factors, not based on specific quantitative models.</p>
     </footer>
 
     <script>
