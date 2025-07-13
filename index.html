@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European Banks & The Green Energy Transition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!--
+    Narrative Plan:
+    1.  Hook: Start with the EU's high-level climate targets to establish the "why."
+    2.  Problem/Context: Introduce the regulatory framework (EU Taxonomy) and the key metrics (GAR/BTAR), highlighting the current low alignment (the challenge).
+    3.  Solution/Action: Showcase how leading banks are performing against these goals through comparative data visualizations (GARs, financing volumes, fossil fuel exit strategies).
+    4.  Conflict/Nuance: Address the "credibility gap" between banks' pledges and continued fossil fuel financing.
+    5.  Resolution/Future: Conclude with the path forward, emphasizing the challenges and the need for continued action.
+
+    Visualization Plan:
+    - EU Climate Targets: Goal: Inform. Visualization: Single Big Numbers (HTML/CSS). Justification: High impact for key stats.
+    - EU Taxonomy Flow: Goal: Organize. Visualization: Flow Chart (HTML/CSS). Justification: Clearly explains a process without complex charts. No SVG/Mermaid.
+    - Average Green Asset Ratio: Goal: Inform. Visualization: Donut Chart (Chart.js/Canvas). Justification: Excellent for showing a small part of a whole.
+    - Bank Green Asset Ratios: Goal: Compare. Visualization: Bar Chart (Chart.js/Canvas). Justification: Best for direct comparison of values across different entities.
+    - Sustainable Finance Mobilization: Goal: Compare. Visualization: Horizontal Bar Chart (Chart.js/Canvas). Justification: Clear comparison of large financial volumes.
+    - Fossil Fuel Exit Timelines: Goal: Compare/Change. Visualization: Timeline/List (HTML/CSS). Justification: Shows commitments over time effectively. No SVG/Mermaid.
+    - Low-Carbon Energy Share: Goal: Compare. Visualization: Donut Chart (Chart.js/Canvas). Justification: Shows composition of a portfolio.
+    - Credibility Gap: Goal: Compare/Inform. Visualization: Stacked Bar Chart (Chart.js/Canvas). Justification: Visually represents the conflict between green finance and fossil fuel finance within a single entity.
+    - GAR vs Total Assets Scatter Plot: Goal: Relationships. Visualization: Scatter Plot (Chart.js/Canvas). Justification: To show correlation or distribution between two quantitative variables. Data is illustrative due to lack of comprehensive real data.
+    - BTAR vs Total Assets Scatter Plot: Goal: Relationships. Visualization: Scatter Plot (Chart.js/Canvas). Justification: To show correlation or distribution between two quantitative variables. Data is illustrative due to lack of comprehensive real data.
+    - New Section: Banks' Role in Transition Funding. Goal: Inform/Organize. Visualization: Bar Chart (Chart.js/Canvas) for funding allocation, and text/list for means.
+
+    Color Palette: "Vibrant Greens & Blues" (A custom selection inspired by the provided images for a professional, eco-finance theme).
+    - Background: #F8FAFC (Almost white)
+    - Primary Text: #0F172A (Dark Slate)
+    - Accent Green (Good): #2ECC71
+    - Accent Red (Bad/Fossil): #E74C3C
+    - Chart Blue 1: #0582CA
+    - Chart Blue 2: #00A6FB
+    - Chart Neutral: #94A3B8
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. All diagrams are pure HTML/CSS or rendered on Canvas by Chart.js.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #E2E8F0;
+        }
+        .kpi-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #0582CA;
+            line-height: 1;
+        }
+        .kpi-label {
+            margin-top: 0.5rem;
+            font-size: 1.125rem;
+            color: #475569;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.25rem;
+            text-align: center;
+            color: #475569;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #E2E8F0;
+        }
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="py-12 text-center">
+        <h1 class="text-5xl font-extrabold tracking-tight">Financing the Future</h1>
+        <p class="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">An Infographic on How European Banks are Supporting the Transition to Green Energy</p>
+    </header>
+
+    <main class="container mx-auto px-4">
+
+        <section id="eu-targets" class="py-16">
+            <h2 class="section-title">Europe's Green Ambition</h2>
+            <p class="section-subtitle">The European Union has set ambitious, legally binding targets to combat climate change, creating a powerful mandate for the financial sector to redirect capital towards a sustainable economy.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="kpi-card">
+                    <div class="kpi-number">55%</div>
+                    <div class="kpi-label">GHG Reduction by 2030</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-number">42.5%</div>
+                    <div class="kpi-label">Renewable Energy by 2030</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-number">2050</div>
+                    <div class="kpi-label">Target for Climate Neutrality</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="framework" class="py-16 bg-slate-50 rounded-xl">
+            <h2 class="section-title">The Regulatory Toolkit: Measuring "Green"</h2>
+            <p class="section-subtitle">To prevent greenwashing and guide investment, the EU created the Taxonomy Regulation—a classification system to define environmentally sustainable activities. Banks use metrics like the Green Asset Ratio (GAR) to report their alignment.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="card">
+                    <h3>What Makes an Activity "EU Taxonomy-Aligned"?</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-sky-100 text-sky-600 font-bold rounded-full flex items-center justify-center">1</div>
+                            <div>
+                                <h4 class="font-semibold">Substantial Contribution</h4>
+                                <p class="text-slate-600">The activity must significantly contribute to one of six environmental objectives, like climate change mitigation.</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-center h-8">
+                            <div class="w-px bg-slate-300"></div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-sky-100 text-sky-600 font-bold rounded-full flex items-center justify-center">2</div>
+                            <div>
+                                <h4 class="font-semibold">Do No Significant Harm (DNSH)</h4>
+                                <p class="text-slate-600">It must not cause significant harm to any of the other five environmental objectives.</p>
+                            </div>
+                        </div>
+                         <div class="flex justify-center h-8">
+                            <div class="w-px bg-slate-300"></div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-sky-100 text-sky-600 font-bold rounded-full flex items-center justify-center">3</div>
+                            <div>
+                                <h4 class="font-semibold">Minimum Safeguards</h4>
+                                <p class="text-slate-600">The activity must be carried out in line with human and labour rights standards.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>The Reality: Low Overall Alignment</h3>
+                    <p class="text-slate-600 mb-4">Despite the framework, the average Green Asset Ratio (GAR) for EU banks remains low, highlighting the scale of the transition challenge. This is due to strict criteria and significant data gaps, especially for smaller companies.</p>
+                    <div class="chart-container">
+                        <canvas id="avgGarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bank-performance" class="py-16">
+            <h2 class="section-title">Bank Performance: Leaders in Transition</h2>
+            <p class="section-subtitle">While overall alignment is low, several banks are making significant strides, demonstrating leadership through higher green asset ratios, substantial sustainable finance commitments, and clear fossil fuel exit strategies.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card md:col-span-2">
+                    <h3>Green Asset Ratio (GAR) Comparison (2024 Data)</h3>
+                    <p class="text-slate-600 mb-4">The GAR shows the percentage of a bank's assets aligned with the EU Taxonomy. While still in single digits, some banks report higher ratios, often influenced by large mortgage portfolios which are easier to classify as "green."</p>
+                    <div class="chart-container h-96">
+                        <canvas id="bankGarChart"></canvas>
+                    </div>
+                </div>
+                 <div class="card">
+                    <h3>Fossil Fuel Divestment & Policy</h3>
+                    <p class="text-slate-600 mb-4">A key indicator of commitment is a bank's policy on fossil fuels. Leaders have set clear deadlines to exit or have near-zero exposure.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center"><span class="font-bold text-green-600 w-8 text-2xl">✔</span><span class="font-semibold w-32">Triodos Bank:</span> Explicit policy of no fossil fuel financing.</li>
+                        <li class="flex items-center"><span class="font-bold text-green-600 w-8 text-2xl">✔</span><span class="font-semibold w-32">La Banque Postale:</span> Near-complete exit (0.005% exposure).</li>
+                        <li class="flex items-center"><span class="font-bold text-green-600 w-8 text-2xl">✔</span><span class="font-semibold w-32">EIB:</span> Ended all unabated fossil fuel financing in 2021.</li>
+                        <li class="flex items-center"><span class="font-bold text-orange-500 w-8 text-2xl">~</span><span class="font-semibold w-32">ING:</span> Targets zero upstream oil & gas finance by 2040.</li>
+                         <li class="flex items-center"><span class="font-bold text-orange-500 w-8 text-2xl">~</span><span class="font-semibold w-32">Crédit Agricole:</span> Exiting thermal coal by 2030/2040 but still finances some fossil fuel producers via "green-labeled" deals.</li>
+                         <li class="flex items-center"><span class="font-bold text-red-500 w-8 text-2xl">✖</span><span class="font-semibold w-32">Nordea:</span> Reportedly lowered sustainability requirements, allowing new loans for unconventional fossil fuel extraction and lent SEK 15 billion to fossil fuel companies.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Sustainable Finance Mobilization Targets</h3>
+                     <p class="text-slate-600 mb-4">Beyond ratios, banks are committing vast sums to support their clients' transition to low-carbon models.</p>
+                    <div class="chart-container h-80">
+                         <canvas id="sustainableFinanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gar-total-assets" class="py-16 bg-slate-50 rounded-xl">
+            <h2 class="section-title">Green Asset Ratio (GAR) vs. Total Assets</h2>
+            <p class="section-subtitle">This scatter plot illustrates the relationship between a bank's total assets and its Green Asset Ratio. Due to the limited public disclosure of comprehensive, comparable GAR and total asset data for all European banks, some data points are illustrative. This chart helps visualize if there's a trend between bank size and green alignment, or if alignment varies widely regardless of size.</p>
+            <div class="card max-w-4xl mx-auto">
+                 <h3>European Bank Portfolio Alignment (GAR)</h3>
+                 <p class="text-slate-600 mb-4">Each point represents a European bank. The X-axis shows total assets (in Trillions of Euros), and the Y-axis shows the Green Asset Ratio (%).</p>
+                 <div class="chart-container">
+                     <canvas id="garTotalAssetsScatter"></canvas>
+                 </div>
+            </div>
+        </section>
+
+        <section id="btar-total-assets" class="py-16">
+            <h2 class="section-title">Banking Book Taxonomy Alignment Ratio (BTAR) vs. Total Assets</h2>
+            <p class="section-subtitle">This illustrative scatter plot conceptualizes the relationship between a bank's total assets and its Banking Book Taxonomy Alignment Ratio (BTAR). Due to the voluntary and limited public disclosure of comprehensive, comparable BTAR and total asset data for European banks, the data presented here is hypothetical and for demonstration purposes only. This chart can help visualize potential trends if more data were available.</p>
+            <div class="card max-w-4xl mx-auto">
+                 <h3>European Bank Portfolio Alignment (BTAR) - Illustrative</h3>
+                 <p class="text-slate-600 mb-4">Each point represents a European bank. The X-axis shows total assets (in Trillions of Euros), and the Y-axis shows the Banking Book Taxonomy Alignment Ratio (%).</p>
+                 <div class="chart-container">
+                     <canvas id="btarTotalAssetsScatter"></canvas>
+                 </div>
+            </div>
+        </section>
+
+        <section id="banks-role" class="py-16 bg-slate-50 rounded-xl">
+            <h2 class="section-title">Banks' Role: Fueling the Green Transition</h2>
+            <p class="section-subtitle">Banks are pivotal in accelerating the shift from fossil fuels to green energy by deploying various financial instruments and directing capital to key participants across the economy. Their role extends beyond simple lending to encompass advisory services and innovative financing solutions.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3>Key Financial Means Used by Banks</h3>
+                    <p class="text-slate-600 mb-4">Banks leverage a diverse set of financial instruments to support the energy transition:</p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">
+                        <li><span class="font-semibold">Green Loans:</span> Loans specifically earmarked for environmentally friendly projects (e.g., renewable energy installations, energy-efficient building upgrades).</li>
+                        <li><span class="font-semibold">Green Bonds:</span> Debt instruments where the proceeds are exclusively used to finance or re-finance eligible green projects.</li>
+                        <li><span class="font-semibold">Sustainability-Linked Loans (SLLs):</span> Loans where the interest rate is tied to the borrower's achievement of pre-defined sustainability performance targets.</li>
+                        <li><span class="font-semibold">Equity Investments:</span> Direct investments in green technology companies, renewable energy developers, or sustainable infrastructure funds.</li>
+                        <li><span class="font-semibold">Advisory Services:</span> Guiding clients on their decarbonization strategies, helping them identify green investment opportunities, and navigate regulatory frameworks.</li>
+                        <li><span class="font-semibold">Trade Finance:</span> Supporting the trade of green goods and services, such as renewable energy components.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Illustrative Funding Allocation to Green Transition Participants</h3>
+                    <p class="text-slate-600 mb-4">Banks direct their funding to various sectors and entities crucial for the green transition. This chart shows an illustrative breakdown of typical funding areas by a hypothetical bank.</p>
+                    <div class="chart-container">
+                        <canvas id="greenFundingAllocationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="credibility-gap" class="py-16">
+            <h2 class="section-title">The Credibility Gap: Pledges vs. Reality</h2>
+            <p class="section-subtitle">A critical challenge is the divergence between banks' public climate commitments and their continued financing of fossil fuel activities. Reports show many large banks still support fossil fuel expansion, raising concerns about the pace of genuine change.</p>
+            <div class="card max-w-4xl mx-auto">
+                 <h3>Portfolio Breakdown: A Common Dilemma</h3>
+                 <p class="text-slate-600 mb-4">This chart illustrates a common scenario where a bank's energy financing portfolio, despite its green pledges, remains heavily weighted towards fossil fuels. "Transition finance" for high-emitting clients is crucial but complex to measure and verify.</p>
+                 <div class="chart-container">
+                     <canvas id="credibilityGapChart"></canvas>
+                 </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="text-center py-8 mt-16 border-t border-slate-200">
+        <p class="text-slate-500">Infographic created based on public reports regarding European banking and sustainable finance. Data points are for illustrative and educational purposes, reflecting information available up to 2024. Specific GAR and BTAR data for many banks, including Nordea, Danske Bank, Triodos, KfW, ING, and BNP Paribas, was not fully available in the provided sources, hence illustrative values are used where necessary. Ørsted is an energy company and does not report a Green Asset Ratio in the context of banking. All scatter plot data is largely hypothetical and for illustrative purposes only due to data availability limitations. Funding allocation data is also illustrative.</p>
+    </footer>
+
+    <script>
+        const chartTooltipPlugin = {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const wrapLabel = (label) => {
+            if (typeof label !== 'string') return label; // Added type check
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).length > 16 && currentLine.length > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine ? currentLine + ' ' + word : word;
+                }
+            }
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const avgGarCtx = document.getElementById('avgGarChart').getContext('2d');
+            new Chart(avgGarCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['EU Taxonomy-Aligned Assets (Avg.)', 'Other Assets'],
+                    datasets: [{
+                        label: 'Asset Allocation',
+                        data: [2.5, 97.5],
+                        backgroundColor: ['#2ECC71', '#E2E8F0'],
+                        borderColor: ['#FFFFFF'],
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: false,
+                        },
+                        ...chartTooltipPlugin
+                    }
+                }
+            });
+
+            const bankGarCtx = document.getElementById('bankGarChart').getContext('2d');
+            new Chart(bankGarCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['La Banque Postale', 'Rabobank', 'Nordea', 'Danske Bank', 'Ørsted', 'EU Average'],
+                    datasets: [{
+                        label: 'Green Asset Ratio %',
+                        data: [5.7, 4.6, 0, 0, 0, 2.5],
+                        backgroundColor: ['#0582CA', '#00A6FB', '#94A3B8', '#94A3B8', '#94A3B8', '#94A3B8'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'GAR (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        ...chartTooltipPlugin
+                    }
+                }
+            });
+
+            const sustainableFinanceCtx = document.getElementById('sustainableFinanceChart').getContext('2d');
+            const sustainableFinanceLabels = ['Nordea (€200B by 2025)', 'BNP Paribas (€200B by 2025)', 'ING (€150B/yr by 2027)'];
+            new Chart(sustainableFinanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: sustainableFinanceLabels.map(wrapLabel),
+                    datasets: [{
+                        label: 'Sustainable Finance Mobilization Target (€ Billion)',
+                        data: [200, 200, 150],
+                         backgroundColor: ['#0582CA', '#00A6FB', '#006494'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                     scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Amount in Billion Euros (€)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                           display: false
+                        },
+                        ...chartTooltipPlugin
+                    }
+                }
+            });
+
+            const garTotalAssetsCtx = document.getElementById('garTotalAssetsScatter').getContext('2d');
+            new Chart(garTotalAssetsCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'European Banks',
+                        data: [
+                            { x: 0.8, y: 5.7, bank: 'La Banque Postale' },
+                            { x: 0.7, y: 4.6, bank: 'Rabobank' },
+                            { x: 0.02, y: 6.5, bank: 'Triodos Bank' },
+                            { x: 0.55, y: 7.0, bank: 'KfW' },
+                            { x: 0.9, y: 3.0, bank: 'ING' },
+                            { x: 0.65, y: 3.0, bank: 'Nordea', isHighlighted: true }, // Highlight Nordea
+                            { x: 0.5, y: 2.5, bank: 'Danske Bank' },
+                            { x: 2.5, y: 2.5, bank: 'BNP Paribas' }
+                        ],
+                        backgroundColor: function(context) {
+                            return context.raw.isHighlighted ? '#E74C3C' : '#0582CA'; // Red for highlighted, blue for others
+                        },
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'Total Assets (Trillions €)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Green Asset Ratio (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const bankName = context.raw.bank;
+                                    const totalAssets = context.parsed.x;
+                                    const gar = context.parsed.y;
+                                    return `${bankName}: Assets ${totalAssets}T€, GAR ${gar}%`;
+                                },
+                                title: function(tooltipItems) {
+                                    return '';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const btarTotalAssetsCtx = document.getElementById('btarTotalAssetsScatter').getContext('2d');
+            new Chart(btarTotalAssetsCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'European Banks',
+                        data: [
+                            { x: 0.8, y: 6.0, bank: 'La Banque Postale' },
+                            { x: 0.7, y: 5.0, bank: 'Rabobank' },
+                            { x: 0.02, y: 7.5, bank: 'Triodos Bank' },
+                            { x: 0.55, y: 8.0, bank: 'KfW' },
+                            { x: 0.9, y: 3.5, bank: 'ING' },
+                            { x: 0.65, y: 3.5, bank: 'Nordea', isHighlighted: true }, // Highlight Nordea
+                            { x: 0.5, y: 3.0, bank: 'Danske Bank' },
+                            { x: 2.5, y: 3.0, bank: 'BNP Paribas' }
+                        ],
+                        backgroundColor: function(context) {
+                            return context.raw.isHighlighted ? '#E74C3C' : '#00A6FB'; // Red for highlighted, blue for others
+                        },
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'Total Assets (Trillions €)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Banking Book Taxonomy Alignment Ratio (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const bankName = context.raw.bank;
+                                    const totalAssets = context.parsed.x;
+                                    const btar = context.parsed.y;
+                                    return `${bankName}: Assets ${totalAssets}T€, BTAR ${btar}%`;
+                                },
+                                title: function(tooltipItems) {
+                                    return '';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const greenFundingAllocationCtx = document.getElementById('greenFundingAllocationChart').getContext('2d');
+            new Chart(greenFundingAllocationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Renewable Energy Projects', 'Energy Efficiency (Buildings)', 'Sustainable Transport', 'Circular Economy & Other Green Projects', 'Transition Finance (High-Emitting Sectors)'].map(wrapLabel), // Applied wrapLabel here
+                    datasets: [{
+                        label: 'Illustrative Funding Allocation (€ Billion)',
+                        data: [70, 45, 25, 30, 30], // Illustrative data
+                        backgroundColor: ['#2ECC71', '#0582CA', '#00A6FB', '#006494', '#94A3B8'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Amount in Billion Euros (€)'
+                            }
+                        },
+                        y: {
+                            // Removed ticks.callback here
+                        }
+                    },
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        ...chartTooltipPlugin
+                    }
+                }
+            });
+
+
+            const credibilityGapCtx = document.getElementById('credibilityGapChart').getContext('2d');
+            new Chart(credibilityGapCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Illustrative Bank Energy Portfolio'],
+                    datasets: [
+                        {
+                            label: 'Low-Carbon & Green Finance',
+                            data: [40],
+                            backgroundColor: '#2ECC71',
+                        },
+                        {
+                            label: 'Fossil Fuel Finance (incl. "Transition")',
+                            data: [160],
+                            backgroundColor: '#E74C3C',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            stacked: true,
+                             title: {
+                                display: true,
+                                text: 'Financing Volume in Billion Euros (€)'
+                            }
+                        },
+                        y: {
+                            stacked: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                           position: 'bottom'
+                        },
+                         ...chartTooltipPlugin
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
